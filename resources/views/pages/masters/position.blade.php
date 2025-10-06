@@ -12,7 +12,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h4 class="card-title mb-0">ข้อมูลตำแหน่ง</h4>
-                        <a href="{{ url('/admin/employee/add') }}" class="btn btn-primary">
+                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addPositionModal">
                             <i class="mdi mdi-account-plus"></i> เพิ่มข้อมูล
                         </a>
                     </div>
@@ -70,6 +70,33 @@
                     </table>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: เพิ่มข้อมูลตำแหน่ง -->
+<div class="modal fade" id="addPositionModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="addPositionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="OTForm">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addPositionModalLabel">เพิ่มข้อมูลตำแหน่ง</h5>
+                </div>
+                <div class="modal-body" style="font-size: 18px;">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="position_name">ชื่อตำแหน่ง</label>
+                            <input type="text" class="form-control" id="position_name" name="position_name" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">บันทึก</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+                </div>
+            </form>
+
         </div>
     </div>
 </div>
