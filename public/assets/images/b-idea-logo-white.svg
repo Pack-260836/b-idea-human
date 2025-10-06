@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="200" viewBox="0 0 800 200" role="img" aria-labelledby="title desc">
+  <title id="title">B-IDEA Logo - White Text</title>
+  <desc id="desc">Logo with transparent background and white text B-IDEA.</desc>
+  <defs>
+    <style><![CDATA[
+      .word {
+        font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        font-weight: 800;
+        font-size: 140px;
+        letter-spacing: 6px;
+        dominant-baseline: middle;
+      }
+    ]]></style>
+  </defs>
+  <!-- Transparent background -->
+  <rect x="0" y="0" width="800" height="200" fill="none"/>
+  <!-- White text -->
+  <text class="word" x="50" y="100" fill="#FFFFFF">B-IDEA</text>
+</svg>
