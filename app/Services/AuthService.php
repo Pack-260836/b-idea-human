@@ -33,12 +33,12 @@ class AuthService
             $guardMap = [
                 1 => 'admin',
                 2 => 'chief',
-                3 => 'users'
+                3 => 'user'
             ];
             $redirectMap = [
                 'admin' => '/admin/dashboard',
                 'chief' => '/chief/dashboard',
-                'users' => '/dashboard',
+                'user' => '/dashboard',
             ];
             $guard = $guardMap[$sys_users->emp_level];
             $isAuth = Auth::guard($guard)->attempt([

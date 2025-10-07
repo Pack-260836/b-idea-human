@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\NavigatorPagesContollers\AdminPageController;
+use App\Http\Controllers\NavigatorPagesContollers\ChiefPageController;
+use App\Http\Controllers\NavigatorPagesContollers\UserPageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,5 +52,5 @@ Route::middleware('auth:chief')->group(function () {
     });
 });
 Route::middleware('auth:user')->group(function () {
-    Route::get('/dashboard', [AdminPageController::class, 'dashboard']);
+    Route::get('/dashboard', [UserPageController::class, 'dashboard']);
 });

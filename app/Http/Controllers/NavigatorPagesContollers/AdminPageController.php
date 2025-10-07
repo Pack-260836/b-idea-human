@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\NavigatorPagesContollers;
 
 use App\Http\Controllers\Controller;
+use App\Services\MasterServices\TimeWorkService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -90,8 +91,10 @@ class AdminPageController extends Controller
     }
     public function master_time_work()
     {
+        $timework_data = json_decode(json_encode(TimeWorkService::fetch()), true);
         $data = [
-            'user_data' => $this->user
+            'user_data' => $this->user,
+            'timework_data' => $timework_data['data']
         ];
         return view('pages.masters.time_work')->with($data);
     }

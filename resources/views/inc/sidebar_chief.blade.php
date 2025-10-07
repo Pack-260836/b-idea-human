@@ -19,12 +19,6 @@
                 <span class="menu-title">แดชบอร์ด</span>
             </a>
         </li>
-        <!-- <li class="nav-item">
-            <a class="nav-link" href="{{ url('') }}">
-                <i class="menu-icon typcn typcn-document-text"></i>
-                <span class="menu-title">ลงเวลางาน</span>
-            </a>
-        </li> -->
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                 <i class="menu-icon typcn typcn-coffee"></i>
@@ -36,12 +30,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/admin/leave') }}">ใบลา</a>
                     </li>
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" href="../../pages/ui-features/dropdowns.html">Dropdowns</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/admin/ot-form') }}">โอที</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../../pages/ui-features/typography.html">Typography</a>
-                    </li> -->
+                        <a class="nav-link" href="{{ url('/admin/job-form') }}">Job</a>
+                    </li>
                 </ul>
             </div>
         </li>

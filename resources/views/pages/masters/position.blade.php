@@ -86,17 +86,16 @@
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label for="position_name">ชื่อตำแหน่ง</label>
+                            <input type="hidden" id="position_id">
                             <input type="text" class="form-control" id="position_name" name="position_name" required>
                         </div>
                     </div>
                 </div>
-
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">บันทึก</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
                 </div>
             </form>
-
         </div>
     </div>
 </div>

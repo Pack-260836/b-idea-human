@@ -7,6 +7,7 @@
 @section('content')
 <div class="content-wrapper">
     <div class="row">
+        @if(Auth::guard('user')->check())
         <div class="col-md-6 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
@@ -17,9 +18,6 @@
                                 <p class="mb-0">โอทีทำงาน</p>
                             </div>
                             <h4 class="font-weight-semibold">20 ชม.</h4>
-                            <!-- <div class="progress progress-md">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 78%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="78"></div>
-                            </div> -->
                         </div>
                         <div class="col-md-6 mt-4 mt-md-0">
                             <div class="d-flex align-items-center pb-2">
@@ -27,22 +25,22 @@
                                 <p class="mb-0">โอที เสริม</p>
                             </div>
                             <h4 class="font-weight-semibold">5 ชม.</h4>
-                            <!-- <div class="progress progress-md">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="45"></div>
-                            </div> -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        @endif
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h4 class="card-title"> ตารางการเข้างาน (ปัจจุบัน)</h4>
+                        @if(Auth::guard('admin')->check() || Auth::guard('chief')->check())
                         <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#cameraModal">
                             <i class="mdi mdi-clock-outline"></i> ลงเวลา
                         </a>
+                        @endif
                     </div>
                     <!-- <p class="card-description"> ตารางการเข้างานของพนักงานภายในวันปัจจุบัน </p> -->
                     <table class="table table-striped">
@@ -58,7 +56,9 @@
                                 <th> ออก 2 </th>
                                 <th> โอที </th>
                                 <th> โอทีเสริม </th>
+                                @if(Auth::guard('admin')->check() || Auth::guard('chief')->check())
                                 <th> เครื่องมือ </th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -71,11 +71,13 @@
                                 <td>12:00</td>
                                 <td>13:00</td>
                                 <td>17:00</td>
-                                <td>0</td>
-                                <td>0</td>
+                                <td class="text-center">0</td>
+                                <td class="text-center">0</td>
+                                @if(Auth::guard('admin')->check() || Auth::guard('chief')->check())
                                 <td>
                                     <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editTimeModal">แก้ไข</button>
                                 </td>
+                                @endif
                             </tr>
                             <tr>
                                 <td>2</td>
@@ -86,11 +88,13 @@
                                 <td>12:15</td>
                                 <td>13:15</td>
                                 <td>18:00</td>
-                                <td>1</td>
-                                <td>0</td>
+                                <td class="text-center">1</td>
+                                <td class="text-center">0</td>
+                                @if(Auth::guard('admin')->check() || Auth::guard('chief')->check())
                                 <td>
                                     <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editTimeModal">แก้ไข</button>
                                 </td>
+                                @endif
                             </tr>
                             <tr>
                                 <td>3</td>
@@ -101,11 +105,13 @@
                                 <td>11:45</td>
                                 <td>13:00</td>
                                 <td>16:30</td>
-                                <td>0</td>
-                                <td>0</td>
+                                <td class="text-center">0</td>
+                                <td class="text-center">0</td>
+                                @if(Auth::guard('admin')->check() || Auth::guard('chief')->check())
                                 <td>
                                     <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editTimeModal">แก้ไข</button>
                                 </td>
+                                @endif
                             </tr>
                             <tr>
                                 <td>4</td>
@@ -116,11 +122,13 @@
                                 <td>12:00</td>
                                 <td>13:00</td>
                                 <td>15:00</td>
-                                <td>0</td>
-                                <td>0</td>
+                                <td class="text-center">0</td>
+                                <td class="text-center">0</td>
+                                @if(Auth::guard('admin')->check() || Auth::guard('chief')->check())
                                 <td>
                                     <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editTimeModal">แก้ไข</button>
                                 </td>
+                                @endif
                             </tr>
                             <tr>
                                 <td>5</td>
@@ -131,11 +139,13 @@
                                 <td>11:45</td>
                                 <td>12:45</td>
                                 <td>20:00</td>
-                                <td>3</td>
-                                <td>1</td>
+                                <td class="text-center">3</td>
+                                <td class="text-center">1</td>
+                                @if(Auth::guard('admin')->check() || Auth::guard('chief')->check())
                                 <td>
                                     <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editTimeModal">แก้ไข</button>
                                 </td>
+                                @endif
                             </tr>
 
                         </tbody>

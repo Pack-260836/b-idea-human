@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -25,8 +26,13 @@
 
         <div class="container-fluid page-body-wrapper">
             <!-- sidebar -->
+            @if (Auth::guard('admin')->check())
             @include('inc.sidebar_admin')
-
+            @elseif (Auth::guard('chief')->check())
+            @include('inc.sidebar_chief')
+            @else
+            @include('inc.sidebar_users')
+            @endif
             <div class="main-panel">
                 <!-- content -->
                 @yield('content')
@@ -44,6 +50,7 @@
     <script src="{{ asset('assets/js/shared/jquery.cookie.js') }}"></script>
     <script src="{{ asset('assets/js/app-token.js') }}"></script>
     <script src="{{ asset('assets/js/js-logout.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript">
         var APP_BASE_URL = @json(url('/'));
     </script>
