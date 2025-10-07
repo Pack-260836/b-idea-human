@@ -34,7 +34,8 @@ class AdminPageController extends Controller
     {
         $select_employee = json_decode(json_encode(EmployeeService::selectEmployee()), true);
         $data = [
-            'user_data' => $this->user
+            'user_data' => $this->user,
+            'select_employee' => $select_employee['data']
         ];
         return view('pages.leave_form')->with($data);
     }

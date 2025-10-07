@@ -121,7 +121,20 @@ class EmployeeService
     public static function selectEmployee()
     {
         try {
-            //code...
+            $array = [];
+            $rs = EmployeeModel::fetch();
+            foreach ($rs as $row => $value) {
+                $rsPosition = PositionModel::fetchById($value->position_id);
+                $prefix = !empty($value->prefix_th) ? $value->prefix_th : $value->prefix_en;
+                $name = !empty($value->name_th) ? $value->name_th : $value->name_en;
+                $array[$row]['user_id'] = $value->user_id;
+                $array[$row]['text_select'] = 'ตำแหน่ง : ' . $rsPosition->position_name_th . ' | ' . $prefix . ' ' . $name;
+            }
+            return [
+                'data' => $array,
+                'message' => null,
+                'success' => true,
+            ];
         } catch (\Throwable $th) {
             throw $th;
         }

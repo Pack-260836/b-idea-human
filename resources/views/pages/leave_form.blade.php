@@ -98,15 +98,16 @@
 <div class="modal fade" id="addLeaveModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="addLeaveModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form id="leaveForm">
+            <form id="frmLeave">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addLeaveModalLabel">เพิ่มข้อมูลใบลา</h5>
                 </div>
                 <div class="modal-body" style="font-size: 20px;">
                     <div class="row">
+                        <input type="hidden" id="leave_form_id">
                         <div class="form-group col-md-4">
                             <label for="submit_date">วันที่ยื่นเรื่อง</label>
-                            <input type="date" class="form-control" id="submit_date" name="submit_date" required>
+                            <input type="date" class="form-control" id="submit_date" name="submit_date" value="{{ date('Y-m-d') }}" required>
                         </div>
 
                         <div class="form-group col-md-4">
@@ -148,11 +149,12 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="employee_name">ชื่อ-นามสกุล</label>
+                        <label for="employee_name">ชื่อ-นามสกุล <span class="text-danger">*</span></label>
                         <select class="form-control" id="employee_name" name="employee_name" required>
                             <option value="">โปรดระบุ</option>
-                            <option value="สมชาย ใจดี">สมชาย ใจดี</option>
-                            <option value="สุดา ลางาม">สุดา ลางาม</option>
+                            <?php foreach ($select_employee as $row => $employee) { ?>
+                                <option value="<?= $employee['user_id'] ?>"><?= $employee['text_select'] ?></option>
+                            <?php } ?>
                         </select>
                     </div>
 
@@ -181,26 +183,27 @@
 
 @section('js-content')
 <script>
+    $('#addLeaveModal').on('hidden.bs.modal', function() {
+        $('#frmLeave')[0].reset();
+        $('#position_id').val('').trigger('change');
+        $('#gender_id').val('0').trigger('change');
+    });
     $(document).ready(function() {
         function calculateLeaveDays() {
             let from = $('#leave_form_date_start').val();
             let to = $('#leave_form_date_end').val();
-
             if (from && to) {
                 let start = new Date(from);
                 let end = new Date(to);
-
                 if (end < start) {
                     $('#leave_days_total').val('');
                     return;
                 }
-
                 let timeDiff = end.getTime() - start.getTime();
                 let dayDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24)) + 1; // บวก 1 เพราะรวมวันแรก
 
                 $('#leave_days_total').val(dayDiff);
             } else if (from && !to) {
-                // ถ้าเลือกแค่วันเดียว
                 $('#leave_days_total').val(1);
             } else {
                 $('#leave_days_total').val('');
