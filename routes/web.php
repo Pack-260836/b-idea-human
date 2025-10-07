@@ -27,6 +27,7 @@ Route::middleware('auth:admin')->group(function () {
         Route::get('/job-form', [AdminPageController::class, 'job_form']);
         Route::get('/employee', [AdminPageController::class, 'employee']);
         Route::get('/employee/add', [AdminPageController::class, 'employee_add']);
+        Route::post('/employee/edit', [AdminPageController::class, 'employee_edit']);
         Route::get('/upsalary', [AdminPageController::class, 'upsalary']);
         Route::get('/payroll', [AdminPageController::class, 'payroll']);
         Route::get('/payroll/process', [AdminPageController::class, 'payroll_process']);

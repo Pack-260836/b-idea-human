@@ -11,7 +11,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h4 class="card-title"> ใบลาทั้งหมด</h4>
+                        <h4 class="card-title"> ใบโอทีทั้งหมด</h4>
                         <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addOTModal">
                             <i class="mdi mdi-account-plus"></i> เพิ่มข้อมูล
                         </a>

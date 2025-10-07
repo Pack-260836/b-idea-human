@@ -13,7 +13,7 @@
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h4 class="card-title"> ใบลาทั้งหมด</h4>
                         <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addLeaveModal">
-                            <i class="mdi mdi-account-plus"></i> เพิ่มข้อมูลใบลา
+                            <i class="mdi mdi-account-plus"></i> เพิ่มข้อมูล
                         </a>
                     </div>
                     <!-- <p class="card-description"> ตารางการเข้างานของพนักงานภายในวันปัจจุบัน </p> -->
@@ -113,58 +113,37 @@
                             <label for="leave_type">ประเภทการลา <span class="text-danger">*</span></label>
                             <select class="form-control" id="leave_type" name="leave_type" required>
                                 <option value="">-- เลือกประเภท --</option>
-                                <option value="ลากิจ">ลากิจ</option>
-                                <option value="ลาป่วย">ลาป่วย</option>
-                                <option value="ลาป่วยอันเนื่องจากอุบัติเหตุจากงาน">ลาป่วยอันเนื่องจากอุบัติเหตุจากงาน</option>
+                                <option value="1">ลากิจ</option>
+                                <option value="2">ลาป่วย</option>
+                                <option value="3">ลาป่วยอันเนื่องจากอุบัติเหตุจากงาน</option>
                             </select>
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label>รูปแบบการลา</label>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <input type="radio" class="form-check-input" name="leave_mode" value="ทั้งวัน" checked> ทั้งวัน
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <input type="radio" class="form-check-input" name="leave_mode" value="รายชั่วโมง"> รายชั่วโมง
-                                </label>
-                            </div>
+                            <label for="leave_mode">รูปแบบการลา <span class="text-danger">*</span></label>
+                            <select class="form-control" id="leave_mode" name="leave_mode" required>
+                                <option value="">-- เลือกรูปแบบ --</option>
+                                <option value="ทั้งวัน" selected>ทั้งวัน</option>
+                                <option value="ครึ่งวันเช้า">ครึ่งวันเช้า</option>
+                                <option value="ครึ่งวันบ่าย">ครึ่งวันบ่าย</option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="form-group col-md-4">
-                            <label for="date_from">วันที่หยุด <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control" id="date_from" name="date_from" required>
+                            <label for="leave_form_date_start">วันที่หยุด <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="leave_form_date_start" name="leave_form_date_start" required>
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label for="date_to">ถึงวันที่</label>
-                            <input type="date" class="form-control" id="date_to" name="date_to">
+                            <label for="leave_form_date_end">ถึงวันที่</label>
+                            <input type="date" class="form-control" id="leave_form_date_end" name="leave_form_date_end">
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label for="day_count">จำนวนวันลา <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="day_count" name="day_count" readonly>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-md-3">
-                            <label for="time_start">ตั้งแต่เวลา</label>
-                            <input type="time" class="form-control" id="time_start" name="time_start">
-                        </div>
-
-                        <div class="form-group col-md-3">
-                            <label for="time_end">ถึงเวลา</label>
-                            <input type="time" class="form-control" id="time_end" name="time_end">
-                        </div>
-
-                        <div class="form-group col-md-3">
-                            <label for="time_count">จำนวนเวลา</label>
-                            <input type="text" class="form-control" id="time_count" name="time_count" readonly>
+                            <label for="leave_days_total">จำนวนวันลา <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="leave_days_total" name="leave_days_total" readonly>
                         </div>
                     </div>
 
@@ -174,7 +153,6 @@
                             <option value="">โปรดระบุ</option>
                             <option value="สมชาย ใจดี">สมชาย ใจดี</option>
                             <option value="สุดา ลางาม">สุดา ลางาม</option>
-                            <!-- เพิ่มจากฐานข้อมูลจริง -->
                         </select>
                     </div>
 
@@ -187,8 +165,8 @@
                         <label for="leave_reason">สาเหตุการลา <span class="text-danger">*</span></label>
                         <textarea class="form-control" id="leave_reason" name="leave_reason" rows="3" required></textarea>
                     </div>
-
                 </div>
+
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">บันทึกข้อมูล</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
@@ -202,5 +180,34 @@
 @endsection
 
 @section('js-content')
+<script>
+    $(document).ready(function() {
+        function calculateLeaveDays() {
+            let from = $('#leave_form_date_start').val();
+            let to = $('#leave_form_date_end').val();
 
+            if (from && to) {
+                let start = new Date(from);
+                let end = new Date(to);
+
+                if (end < start) {
+                    $('#leave_days_total').val('');
+                    return;
+                }
+
+                let timeDiff = end.getTime() - start.getTime();
+                let dayDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24)) + 1; // บวก 1 เพราะรวมวันแรก
+
+                $('#leave_days_total').val(dayDiff);
+            } else if (from && !to) {
+                // ถ้าเลือกแค่วันเดียว
+                $('#leave_days_total').val(1);
+            } else {
+                $('#leave_days_total').val('');
+            }
+        }
+
+        $('#leave_form_date_start, #leave_form_date_end').on('change', calculateLeaveDays);
+    })
+</script>
 @endsection

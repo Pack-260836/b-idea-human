@@ -10,25 +10,25 @@
             <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
                 <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
                     <img class="img-xs rounded-circle"
-                        src="{{ $authUser->image_profile 
-                            ? asset('storage/profile/' . $authUser->image_profile) 
-                            : asset('assets/images/human-01.svg') }}"
-                        alt="Profile image"> </a>
-                <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
-                    <div class="dropdown-header text-center">
-                        <img class="img-md rounded-circle"
-                            src="{{ $authUser->image_profile 
-                                ? asset('storage/profile/' . $authUser->image_profile) 
+                        src="{{ !empty($authUser->image_profile) 
+                                ? asset($authUser->image_profile) 
                                 : asset('assets/images/human-01.svg') }}"
-                            alt="Profile image">
-                        <p class="mb-1 mt-3 font-weight-semibold">
-                            {{ $authUser->name_th 
+                        alt="Profile image">
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+                        <div class="dropdown-header text-center">
+                            <img class="img-md rounded-circle"
+                                src="{{ !empty($authUser->image_profile) 
+                                ? asset($authUser->image_profile) 
+                                : asset('assets/images/human-01.svg') }}"
+                                alt="Profile image">
+                            <p class="mb-1 mt-3 font-weight-semibold">
+                                {{ $authUser->name_th 
                             ? $authUser->prefix_th . ' ' . $authUser->name_th 
                             : $authUser->prefix_en . ' ' . $authUser->name_en }}
-                        </p>
+                            </p>
+                        </div>
+                        <a onclick="handlelogout(this,1)" class="dropdown-item">ออกจากระบบ<i class="dropdown-item-icon ti-power-off"></i></a>
                     </div>
-                    <a onclick="handlelogout(this,1)" class="dropdown-item">ออกจากระบบ<i class="dropdown-item-icon ti-power-off"></i></a>
-                </div>
             </li>
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">

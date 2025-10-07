@@ -29,179 +29,66 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <img src="{{ asset('assets/images/human-01.svg') }}" alt="avatar" width="32" class="me-2">
-                                        <div>
-                                            <div><strong>SME0054</strong> </div>
-                                            <div>นางสาว ศลิษา เทพทอง</div>
+                            <?php foreach ($employee_data as $row => $employee) { ?>
+                                <tr>
+                                    <td>{{ $row + 1 }}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img
+                                                src="{{ !empty($employee['image_profile'])
+                                                            ? asset($employee['image_profile'])
+                                                            : asset('assets/images/human-01.svg') }}"
+                                                alt="avatar" width="64" height="64" style="margin-right: 12px; object-fit: cover;" class="rounded-circle">
+                                            <div>
+                                                <div><strong>SME0054</strong> </div>
+                                                <div>{{ $employee['name_th']
+                                                            ? $employee['prefix_th'] . ' ' . $employee['name_th']
+                                                            : $employee['prefix_en'] . ' ' . $employee['name_en'] }}</div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    ตำแหน่ง : System Analyst & Project Coordinator<br>
-                                    ประเภท: พนักงานรายเดือน<br>
-                                    กลุ่มพนักงาน: ทดลองงาน
-                                </td>
-                                <td><span class="badge bg-success">ปกติ</span></td>
-                                <td>
-                                    <img src="https://api.qrserver.com/v1/create-qr-code/?data=SME0054&size=80x80" alt="QR Code">
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-primary icon-btn dropdown-toggle" type="button" id="dropdownMenuIconButton6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="mdi mdi-menu"></i>
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuIconButton6">
-                                            <a class="dropdown-item" href="#">ข้อมูลพนักงาน</a>
-                                            <a class="dropdown-item" href="#">รีเซ็ตรหัสผ่าน</a>
-                                            <a class="dropdown-item" href="#">สถานะพนักงาน</a>
+                                    </td>
+                                    <td>
+                                        ตำแหน่ง : {{ $employee['position_name_th'] }}<br>
+                                        ประเภท: {{ $employee['emp_type'] == 1 ? 'พนักงานรายเดือน' : 'พนักงานรายวัน' }}<br>
+                                    </td>
+                                    <td>
+                                        @switch($employee['emp_work_status'])
+                                        @case(1)
+                                        <span class="badge bg-success">ปกติ</span>
+                                        @break
+                                        @case(2)
+                                        <span class="badge bg-warning text-dark">พักงาน</span>
+                                        @break
+                                        @case(3)
+                                        <span class="badge bg-danger">พ้นสภาพ</span>
+                                        @break
+                                        @default
+                                        <span class="badge bg-secondary">ไม่ทราบ</span>
+                                        @endswitch
+                                    </td>
+                                    <td>
+                                        <a href="https://api.qrserver.com/v1/create-qr-code/?data={{ $employee['user_id'] }}&size=320x320" target="_blank">
+                                            <img src="https://api.qrserver.com/v1/create-qr-code/?data={{ $employee['user_id'] }}&size=80x80" alt="QR Code">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <form id="goToEditForm" action="{{ url('/admin/employee/edit') }}" method="POST" style="display: none;">
+                                            @csrf
+                                            <input type="hidden" name="user_id" value="{{ $employee['user_id'] }}">
+                                        </form>
+                                        <div class="dropdown">
+                                            <button class="btn btn-primary icon-btn dropdown-toggle" type="button" id="dropdownMenuIconButton6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="mdi mdi-menu"></i>
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuIconButton6">
+                                                <a class="dropdown-item" href="#" onclick="document.getElementById('goToEditForm').submit();">ข้อมูลพนักงาน</a>
+                                                <a class="dropdown-item" href="#">รีเซ็ตรหัสผ่าน</a>
+                                                <a class="dropdown-item" href="#">สถานะพนักงาน</a>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>2</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <img src="{{ asset('assets/images/human-01.svg') }}" alt="avatar" width="32" class="me-2">
-                                        <div>
-                                            <div><strong>SME0053</strong> </div>
-                                            <div>นาย ลิปปกร การะเวก</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    ตำแหน่ง : Mobile Application Developer<br>
-                                    ประเภท: พนักงานรายเดือน<br>
-                                    กลุ่มพนักงาน: ทดลองงาน
-                                </td>
-                                <td><span class="badge bg-success">ปกติ</span></td>
-                                <td>
-                                    <img src="https://api.qrserver.com/v1/create-qr-code/?data=SME0053&size=80x80" alt="QR Code">
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-primary icon-btn dropdown-toggle" type="button" id="dropdownMenuIconButton6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="mdi mdi-menu"></i>
-
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuIconButton6">
-                                            <a class="dropdown-item" href="#">ข้อมูลพนักงาน</a>
-                                            <a class="dropdown-item" href="#">รีเซ็ตรหัสผ่าน</a>
-                                            <a class="dropdown-item" href="#">สถานะพนักงาน</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>3</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <img src="{{ asset('assets/images/human-01.svg') }}" alt="avatar" width="32" class="me-2">
-                                        <div>
-                                            <div><strong>SME0052</strong> </div>
-                                            <div>นาย อาทิตย์ รัตนวิเศษสุกร์</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    ตำแหน่ง : Back End Web Developer<br>
-                                    ประเภท: พนักงานรายเดือน<br>
-                                    กลุ่มพนักงาน: ทดลองงาน
-                                </td>
-                                <td><span class="badge bg-success">ปกติ</span></td>
-                                <td>
-                                    <img src="https://api.qrserver.com/v1/create-qr-code/?data=SME0052&size=80x80" alt="QR Code">
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-primary icon-btn dropdown-toggle" type="button" id="dropdownMenuIconButton6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="mdi mdi-menu"></i>
-
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuIconButton6">
-                                            <a class="dropdown-item" href="#">ข้อมูลพนักงาน</a>
-                                            <a class="dropdown-item" href="#">รีเซ็ตรหัสผ่าน</a>
-                                            <a class="dropdown-item" href="#">สถานะพนักงาน</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>4</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <img src="{{ asset('assets/images/human-01.svg') }}" alt="avatar" width="32" class="me-2">
-                                        <div>
-                                            <div><strong>SME0051</strong> </div>
-                                            <div>นาย วรัญญู ใจตรง</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    ตำแหน่ง : Mobile Application Developer<br>
-                                    ประเภท: พนักงานรายเดือน<br>
-                                    กลุ่มพนักงาน: ทดลองงาน
-                                </td>
-                                <td><span class="badge bg-danger">พ้นสภาพ</span></td>
-                                <td>
-                                    <img src="https://api.qrserver.com/v1/create-qr-code/?data=SME0051&size=320x320" alt="QR Code">
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-primary icon-btn dropdown-toggle" type="button" id="dropdownMenuIconButton6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="mdi mdi-menu"></i>
-
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuIconButton6">
-                                            <a class="dropdown-item" href="#">ข้อมูลพนักงาน</a>
-                                            <a class="dropdown-item" href="#">รีเซ็ตรหัสผ่าน</a>
-                                            <a class="dropdown-item" href="#">สถานะพนักงาน</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>5</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <img src="{{ asset('assets/images/human-01.svg') }}" alt="avatar" width="32" class="me-2">
-                                        <div>
-                                            <div><strong>SME0050</strong> </div>
-                                            <div>นางสาว รุ่งนภา แสงใส</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    ตำแหน่ง : Front End Web Developer<br>
-                                    ประเภท: พนักงานรายเดือน<br>
-                                    กลุ่มพนักงาน: ทดลองงาน
-                                </td>
-                                <td><span class="badge bg-warning">พักงาน</span></td>
-                                <td>
-                                    <img src="https://api.qrserver.com/v1/create-qr-code/?data=SME0050&size=160x160" alt="QR Code">
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-primary icon-btn dropdown-toggle" type="button" id="dropdownMenuIconButton6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="mdi mdi-menu"></i>
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuIconButton6">
-                                            <a class="dropdown-item" href="#">ข้อมูลพนักงาน</a>
-                                            <a class="dropdown-item" href="#">รีเซ็ตรหัสผ่าน</a>
-                                            <a class="dropdown-item" href="#">สถานะพนักงาน</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
+                                    </td>
+                                </tr>
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>

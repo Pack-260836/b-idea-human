@@ -4,6 +4,7 @@ namespace App\Http\Controllers\NavigatorPagesContollers;
 
 use App\Http\Controllers\Controller;
 use App\Models\MasterModels\PositionModel;
+use App\Services\EmployeeService;
 use App\Services\MasterServices\AllowanceService;
 use App\Services\MasterServices\OvertimeService;
 use App\Services\MasterServices\TimeWorkService;
@@ -31,6 +32,7 @@ class AdminPageController extends Controller
     }
     public function leave_form(Request $request)
     {
+        $select_employee = json_decode(json_encode(EmployeeService::selectEmployee()), true);
         $data = [
             'user_data' => $this->user
         ];
@@ -134,17 +136,32 @@ class AdminPageController extends Controller
     }
     public function employee(Request $request)
     {
+        $employee_data = json_decode(json_encode(EmployeeService::fetch()), true);
         $data = [
-            'user_data' => $this->user
+            'user_data' => $this->user,
+            'employee_data' => $employee_data['data']
         ];
         return view('pages.employee')->with($data);
     }
     public function employee_add(Request $request)
     {
+        $position_data = json_decode(json_encode(PositionModel::fetch()), true);
         $data = [
-            'user_data' => $this->user
+            'user_data' => $this->user,
+            'position_data' => $position_data
         ];
         return view('pages.employee_add')->with($data);
+    }
+    public function employee_edit(Request $request)
+    {
+        $employee_data = json_decode(json_encode(EmployeeService::fetchById($request->input('user_id'))), true);
+        $position_data = json_decode(json_encode(PositionModel::fetch()), true);
+        $data = [
+            'user_data' => $this->user,
+            'employee_data' => $employee_data['data'],
+            'position_data' => $position_data
+        ];
+        return view('pages.employee_edit')->with($data);
     }
     public function report_timesheet_person(Request $request)
     {

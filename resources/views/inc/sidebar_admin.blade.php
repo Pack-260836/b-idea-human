@@ -4,10 +4,10 @@
             <a href="#" class="nav-link">
                 <div class="profile-image">
                     <img class="img-xs rounded-circle"
-                        src="{{ $authUser->image_profile 
-                        ? asset('storage/profile/' . $authUser->image_profile) 
-                        : asset('assets/images/human-01.svg') }}"
-                        alt="profile image">
+                        src="{{ !empty($authUser->image_profile) 
+                                ? asset($authUser->image_profile) 
+                                : asset('assets/images/human-01.svg') }}"
+                        alt="Profile image">
                     <div class="dot-indicator bg-success"></div>
                 </div>
                 <div class="text-wrapper">
