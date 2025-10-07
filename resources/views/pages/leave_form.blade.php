@@ -106,13 +106,13 @@
                     <div class="row">
                         <input type="hidden" id="leave_form_id">
                         <div class="form-group col-md-4">
-                            <label for="submit_date">วันที่ยื่นเรื่อง</label>
-                            <input type="date" class="form-control" id="submit_date" name="submit_date" value="{{ date('Y-m-d') }}" required>
+                            <label for="request_date">วันที่ยื่นเรื่อง</label>
+                            <input type="date" class="form-control" id="request_date" name="request_date" value="{{ date('Y-m-d') }}" required>
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label for="leave_type">ประเภทการลา <span class="text-danger">*</span></label>
-                            <select class="form-control" id="leave_type" name="leave_type" required>
+                            <label for="leave_form_type">ประเภทการลา <span class="text-danger">*</span></label>
+                            <select class="form-control" id="leave_form_type" name="leave_form_type" required>
                                 <option value="">-- เลือกประเภท --</option>
                                 <option value="1">ลากิจ</option>
                                 <option value="2">ลาป่วย</option>
@@ -121,12 +121,12 @@
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label for="leave_mode">รูปแบบการลา <span class="text-danger">*</span></label>
-                            <select class="form-control" id="leave_mode" name="leave_mode" required>
+                            <label for="leave_form_format">รูปแบบการลา <span class="text-danger">*</span></label>
+                            <select class="form-control" id="leave_form_format" name="leave_form_format" required>
                                 <option value="">-- เลือกรูปแบบ --</option>
-                                <option value="ทั้งวัน" selected>ทั้งวัน</option>
-                                <option value="ครึ่งวันเช้า">ครึ่งวันเช้า</option>
-                                <option value="ครึ่งวันบ่าย">ครึ่งวันบ่าย</option>
+                                <option value="1" selected>ทั้งวัน</option>
+                                <option value="2">ครึ่งวันเช้า</option>
+                                <option value="3">ครึ่งวันบ่าย</option>
                             </select>
                         </div>
                     </div>
@@ -139,7 +139,7 @@
 
                         <div class="form-group col-md-4">
                             <label for="leave_form_date_end">ถึงวันที่</label>
-                            <input type="date" class="form-control" id="leave_form_date_end" name="leave_form_date_end">
+                            <input type="date" class="form-control" id="leave_form_date_end" name="leave_form_date_end" require_once>
                         </div>
 
                         <div class="form-group col-md-4">
@@ -149,8 +149,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="employee_name">ชื่อ-นามสกุล <span class="text-danger">*</span></label>
-                        <select class="form-control" id="employee_name" name="employee_name" required>
+                        <label for="emp_id">ชื่อ-นามสกุล <span class="text-danger">*</span></label>
+                        <select class="form-control" id="emp_id" name="emp_id" required>
                             <option value="">โปรดระบุ</option>
                             <?php foreach ($select_employee as $row => $employee) { ?>
                                 <option value="<?= $employee['user_id'] ?>"><?= $employee['text_select'] ?></option>
@@ -159,13 +159,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="contact_info">เบอร์โทรศัพท์, อีเมล หรือชื่อบุคคลอ้างอิง ที่สามารถติดต่อได้ระหว่างที่ลางาน</label>
-                        <input type="text" class="form-control" id="contact_info" name="contact_info">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="leave_reason">สาเหตุการลา <span class="text-danger">*</span></label>
-                        <textarea class="form-control" id="leave_reason" name="leave_reason" rows="3" required></textarea>
+                        <label for="leave_form_remark">สาเหตุการลา <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="leave_form_remark" name="leave_form_remark" rows="3" required></textarea>
                     </div>
                 </div>
 
@@ -209,8 +204,42 @@
                 $('#leave_days_total').val('');
             }
         }
-
         $('#leave_form_date_start, #leave_form_date_end').on('change', calculateLeaveDays);
+        $('#frmLeave').on('submit', function(e) {
+            e.preventDefault();
+            let form = document.getElementById('frmEmployee');
+            let formData = new FormData(form);
+            $.ajax({
+                type: 'post',
+                url: '/backend/v1/leave/update',
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'บันทึกข้อมูลเรียบร้อยแล้ว',
+                            timer: 2000,
+                            showConfirmButton: false
+                        }).then(() => {
+                            window.location.reload()
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาด',
+                            text: response.message
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด',
+                        text: 'ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่',
+                    });
+                }
+            });
+        })
     })
 </script>
 @endsection

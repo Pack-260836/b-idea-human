@@ -40,6 +40,7 @@ Route::prefix('backend/v1/masters')->group(function () {
 Route::prefix('backend/v1')->group(function () {
     Route::post('/employee/create', [EmployeeController::class, 'create']);
     Route::post('/employee/update', [EmployeeController::class, 'update']);
-    
+
     Route::post('/leave/update', [LeaveFormController::class, 'update']);
+    Route::post('/leave/fetch/{id}', [LeaveFormController::class, 'fetchByIdสนเ']);
 });
