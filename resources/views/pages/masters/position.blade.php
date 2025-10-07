@@ -26,46 +26,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="text-center">1</td>
-                                <td>เจ้าหน้าที่ธุรการ</td>
-                                <td class="text-center">
-                                    <button class="btn btn-sm btn-primary">แก้ไข</button>
-                                    <button class="btn btn-sm btn-danger">ลบ</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">2</td>
-                                <td>นักวิชาการคอมพิวเตอร์</td>
-                                <td class="text-center">
-                                    <button class="btn btn-sm btn-primary">แก้ไข</button>
-                                    <button class="btn btn-sm btn-danger">ลบ</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">3</td>
-                                <td>หัวหน้าฝ่ายบุคคล</td>
-                                <td class="text-center">
-                                    <button class="btn btn-sm btn-primary">แก้ไข</button>
-                                    <button class="btn btn-sm btn-danger">ลบ</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">4</td>
-                                <td>ช่างเทคนิค</td>
-                                <td class="text-center">
-                                    <button class="btn btn-sm btn-primary">แก้ไข</button>
-                                    <button class="btn btn-sm btn-danger">ลบ</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">5</td>
-                                <td>พนักงานขับรถ</td>
-                                <td class="text-center">
-                                    <button class="btn btn-sm btn-primary">แก้ไข</button>
-                                    <button class="btn btn-sm btn-danger">ลบ</button>
-                                </td>
-                            </tr>
+                            <?php foreach ($position_data as $row => $position) { ?>
+                                <tr>
+                                    <td class="text-center"><?= $row + 1 ?></td>
+                                    <td><?= $position['position_name_th'] ?></td>
+                                    <td class="text-center">
+                                        <button class="btn btn-sm btn-warning" onclick="show({{ $position['position_id'] }})">แก้ไข</button>
+                                    </td>
+                                </tr>
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>
@@ -78,7 +47,8 @@
 <div class="modal fade" id="addPositionModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="addPositionModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form id="OTForm">
+            <form id="frmPosition">
+                @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="addPositionModalLabel">เพิ่มข้อมูลตำแหน่ง</h5>
                 </div>
@@ -87,7 +57,8 @@
                         <div class="form-group col-md-12">
                             <label for="position_name">ชื่อตำแหน่ง</label>
                             <input type="hidden" id="position_id">
-                            <input type="text" class="form-control" id="position_name" name="position_name" required>
+                            <input type="text" class="form-control" id="position_name_th" name="position_name_th" required>
+                            <div class="invalid-feedback">กรุณากรอกชื่อตำแหน่ง</div>
                         </div>
                     </div>
                 </div>
@@ -102,5 +73,71 @@
 @endsection
 
 @section('js-content')
+<script>
+    $('#addPositionModal').on('hidden.bs.modal', function() {
+        $('#frmPosition')[0].reset(); 
+    });
+    $(document).ready(function() {
+        $('#frmPosition').on('submit', function(e) {
+            e.preventDefault();
+            let formData = {
+                position_id: $('#position_id').val(),
+                position_name_th: $('#position_name_th').val(),
+            }
+            $.ajax({
+                url: '/backend/v1/masters/position/update',
+                type: 'post',
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'บันทึกข้อมูลเรียบร้อยแล้ว',
+                            timer: 2000,
+                            showConfirmButton: false
+                        }).then(() => {
+                            // $('#OTForm')[0].reset();
+                            // $('#addPositionModal').modal('hide');
+                            window.location.reload()
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาด',
+                            text: response.message
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด',
+                        text: 'ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่',
+                    });
+                }
+            });
+        })
+    })
 
+    function show(id) {
+        $.ajax({
+            type: 'get',
+            url: '/backend/v1/masters/position/fetch/' + id,
+            success: function(response) {
+                if (response.success) {
+                    let data = response.data
+                    $('#position_id').val(data.position_id)
+                    $('#position_name_th').val(data.position_name_th)
+                    $('#addPositionModal').modal('show');
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด',
+                        text: response.message
+                    });
+                }
+            }
+        });
+    }
+</script>
 @endsection

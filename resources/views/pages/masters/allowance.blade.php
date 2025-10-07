@@ -28,16 +28,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="text-center">1</td>
-                                <td>เจ้าหน้าที่ภาคสนาม</td>
-                                <td class="text-end">250.00</td>
-                                <td class="text-center">
-                                    <button class="btn btn-sm btn-primary">แก้ไข</button>
-                                    <button class="btn btn-sm btn-danger">ลบ</button>
-                                </td>
-                            </tr>
-                            <tr>
+                            <?php foreach ($allowance_data as $row => $allowance) { ?>
+                                <tr>
+                                    <td class="text-center"><?= $row + 1 ?></td>
+                                    <td><?= $allowance['position_name_th'] ?></td>
+                                    <td class="text-end"><?= number_format($allowance['allowance_rate'], 2) ?></td>
+                                    <td class="text-center">
+                                        <button class="btn btn-sm btn-warning" onclick="show({{ $allowance['allowance_id'] }})">แก้ไข</button>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                            <!-- <tr>
                                 <td class="text-center">2</td>
                                 <td>วิศวกรโครงการ</td>
                                 <td class="text-end">400.00</td>
@@ -72,7 +73,7 @@
                                     <button class="btn btn-sm btn-primary">แก้ไข</button>
                                     <button class="btn btn-sm btn-danger">ลบ</button>
                                 </td>
-                            </tr>
+                            </tr> -->
                         </tbody>
                     </table>
                 </div>
@@ -86,19 +87,19 @@
 <div class="modal fade" id="addAllowanceModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="addAllowanceModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form id="OTForm">
+            <form id="frmAllowance">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addAllowanceModalLabel">แบบฟอร์มเบี้ยเลี้ยง</h5>
                 </div>
                 <div class="modal-body" style="font-size: 18px;">
                     <div class="form-group mb-3">
+                        <input type="hidden" id="allowance_id">
                         <label for="position_id" class="form-label">ชื่อตำแหน่ง <span class="text-danger">*</span></label>
                         <select class="form-control" id="position_id" name="position_id" required>
                             <option value="">-- เลือกตำแหน่ง --</option>
-                            <option value="1">เจ้าหน้าที่ธุรการ</option>
-                            <option value="2">ช่างเทคนิค</option>
-                            <option value="3">พนักงานขับรถ</option>
-                            <option value="4">เจ้าหน้าที่บัญชี</option>
+                            <?php foreach ($position_data as $row => $position) { ?>
+                                <option value="<?= $position['position_id'] ?>"><?= $position['position_name_th'] ?></option>
+                            <?php } ?>
                         </select>
                     </div>
                     <div class="form-group mb-3">
@@ -119,5 +120,72 @@
 @endsection
 
 @section('js-content')
-
+<script>
+    $('#addAllowanceModal').on('hidden.bs.modal', function() {
+        $('#frmAllowance')[0].reset();
+        $('#position_id').val('').trigger('change');
+    });
+    $(document).ready(function() {
+        $('#frmAllowance').on('submit', function(e) {
+            e.preventDefault();
+            let formData = {
+                allowance_id: $('#allowance_id').val(),
+                position_id: $('#position_id').val(),
+                allowance_rate: $('#allowance_rate').val(),
+            }
+            $.ajax({
+                type: 'post',
+                url: '/backend/v1/masters/allowance/update',
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'บันทึกข้อมูลเรียบร้อยแล้ว',
+                            timer: 2000,
+                            showConfirmButton: false
+                        }).then(() => {
+                            window.location.reload()
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาด',
+                            text: response.message
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด',
+                        text: 'ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่',
+                    });
+                }
+            });
+        })
+    })
+    function show(id) {
+        $.ajax({
+            type: 'get',
+            url: '/backend/v1/masters/allowance/fetch/' + id,
+            success: function(response) {
+                if (response.success) {
+                    let data = response.data
+                    $('#allowance_id').val(data.allowance_id)
+                    $('#allowance_rate').val(data.allowance_rate)
+                    $('#position_id').val(data.position_id).trigger('change');
+                    $('#addAllowanceModal').modal('show');
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด',
+                        text: response.message
+                    });
+                }
+            }
+        });
+    }
+</script>
+</script>
 @endsection

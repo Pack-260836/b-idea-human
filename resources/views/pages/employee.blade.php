@@ -13,7 +13,7 @@
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h4 class="card-title mb-0">ข้อมูลพนักงานทั้งหมด</h4>
                         <a href="{{ url('/admin/employee/add') }}" class="btn btn-primary">
-                            <i class="mdi mdi-account-plus"></i> เพิ่มข้อมูลพนักงาน
+                            <i class="mdi mdi-account-plus"></i> เพิ่มข้อมูล
                         </a>
                     </div>
                     <!-- <p class="card-description"> ตารางการเข้างานของพนักงานภายในวันปัจจุบัน </p> -->

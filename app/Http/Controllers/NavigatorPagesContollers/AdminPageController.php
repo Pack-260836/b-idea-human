@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\NavigatorPagesContollers;
 
 use App\Http\Controllers\Controller;
+use App\Models\MasterModels\PositionModel;
+use App\Services\MasterServices\AllowanceService;
+use App\Services\MasterServices\OvertimeService;
 use App\Services\MasterServices\TimeWorkService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -100,22 +103,32 @@ class AdminPageController extends Controller
     }
     public function master_position()
     {
+        $position_data = json_decode(json_encode(PositionModel::fetch()), true);
         $data = [
-            'user_data' => $this->user
+            'user_data' => $this->user,
+            'position_data' => $position_data
         ];
         return view('pages.masters.position')->with($data);
     }
     public function master_allowance()
     {
+        $position_data = json_decode(json_encode(PositionModel::fetch()), true);
+        $allowance_data = json_decode(json_encode(AllowanceService::fetch()), true);
         $data = [
-            'user_data' => $this->user
+            'user_data' => $this->user,
+            'position_data' => $position_data,
+            'allowance_data' => $allowance_data['data']
         ];
         return view('pages.masters.allowance')->with($data);
     }
     public function master_overtime()
     {
+        $position_data = json_decode(json_encode(PositionModel::fetch()), true);
+        $overtime_data = json_decode(json_encode(OvertimeService::fetch()), true);
         $data = [
-            'user_data' => $this->user
+            'user_data' => $this->user,
+            'position_data' => $position_data,
+            'overtime_data' => $overtime_data['data']
         ];
         return view('pages.masters.overtime')->with($data);
     }

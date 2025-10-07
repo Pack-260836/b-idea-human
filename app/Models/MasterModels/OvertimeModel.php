@@ -5,10 +5,10 @@ namespace App\Models\MasterModels;
 use App\Helpers\JsonResult;
 use Illuminate\Support\Facades\DB;
 
-class PositionModel
+class OvertimeModel
 {
-    private const TABLE = 'position';
-    private const PK = 'position_id';
+    private const TABLE = 'overtime';
+    private const PK = 'overtime_id';
 
     public static function create($data)
     {

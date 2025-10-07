@@ -3,31 +3,32 @@
 namespace App\Services\MasterServices;
 
 use App\Helpers\JsonResult;
+use App\Models\MasterModels\OvertimeModel;
 use App\Models\MasterModels\PositionModel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-class PositionService
+class OvertimeService
 {
     public static function update($request)
     {
         try {
             $user = Auth::guard('admin')->user();
             $body = $request->all();
-            $position_id = $body['position_id'];
-            unset($body['position_id']);
-            if (is_null($position_id)) {
+            $overtime_id = $body['overtime_id'];
+            unset($body['overtime_id']);
+            if (is_null($overtime_id)) {
                 $body += [
                     'created_at' => Carbon::now(),
                     'created_by' => $user->user_id,
                 ];
-                $rs = PositionModel::create($body);
+                $rs = OvertimeModel::create($body);
             } else {
                 $body += [
                     'updated_at' => Carbon::now(),
                     'updated_by' => $user->user_id,
                 ];
-                $rs = PositionModel::update($position_id, $body);
+                $rs = OvertimeModel::update($overtime_id, $body);
             }
             if (!$rs) {
                 return [
@@ -48,7 +49,11 @@ class PositionService
     public static function fetch()
     {
         try {
-            $rs = PositionModel::fetch();
+            $rs = OvertimeModel::fetch();
+            foreach ($rs as $value) {
+                $rsPosition = PositionModel::fetchById($value->position_id);
+                $value->position_name_th = $rsPosition->position_name_th;
+            }
             return [
                 'data' => $rs,
                 'message' => null,
@@ -61,7 +66,7 @@ class PositionService
     public static function fetchById($position_id)
     {
         try {
-            $rs = PositionModel::fetchById($position_id);
+            $rs = OvertimeModel::fetchById($position_id);
             return [
                 'data' => $rs,
                 'message' => null,

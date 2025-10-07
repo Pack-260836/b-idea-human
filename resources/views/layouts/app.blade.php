@@ -20,6 +20,19 @@
 </head>
 
 <body>
+    @php
+    $guards = ['admin', 'chief', 'user'];
+    $authUser = null;
+    $currentGuard = null;
+
+    foreach ($guards as $guard) {
+        if (Auth::guard($guard)->check()) {
+            $authUser = Auth::guard($guard)->user();
+            $currentGuard = $guard;
+            break;
+        }
+    }
+    @endphp
     <div class="container-scroller">
         <!-- navbar -->
         @include('inc.navbar')

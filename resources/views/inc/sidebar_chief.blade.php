@@ -3,12 +3,31 @@
         <li class="nav-item nav-profile">
             <a href="#" class="nav-link">
                 <div class="profile-image">
-                    <img class="img-xs rounded-circle" src="../../assets/images/faces/face8.jpg" alt="profile image">
+                    <img class="img-xs rounded-circle"
+                        src="{{ $authUser->image_profile 
+                        ? asset('storage/profile/' . $authUser->image_profile) 
+                        : asset('assets/images/human-01.svg') }}"
+                        alt="profile image">
                     <div class="dot-indicator bg-success"></div>
                 </div>
                 <div class="text-wrapper">
-                    <p class="profile-name">Allen Moreno</p>
-                    <p class="designation">Premium user</p>
+                    <p class="profile-name">
+                        {{ $authUser->name_th 
+                            ? $authUser->prefix_th . ' ' . $authUser->name_th 
+                            : $authUser->prefix_en . ' ' . $authUser->name_en }}
+                    </p>
+                    <p class="designation">
+                        @switch($authUser->emp_level)
+                        @case(1)
+                        Admin
+                        @break
+                        @case(2)
+                        Chief
+                        @break
+                        @default
+                        User
+                        @endswitch
+                    </p>
                 </div>
             </a>
         </li>

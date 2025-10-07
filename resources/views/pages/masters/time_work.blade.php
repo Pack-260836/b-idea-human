@@ -112,16 +112,8 @@
                             text: response.message
                         });
                     }
-                    // Swal.fire({
-                    //     icon: 'success',
-                    //     title: 'บันทึกข้อมูลเรียบร้อยแล้ว',
-                    //     timer: 2000,
-                    //     showConfirmButton: false
-                    // });
-                    // $('#frmTimeWork')[0].reset();
                 },
                 error: function(xhr) {
-                    console.error(xhr);
                     Swal.fire({
                         icon: 'error',
                         title: 'เกิดข้อผิดพลาด',
